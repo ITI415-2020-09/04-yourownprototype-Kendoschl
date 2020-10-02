@@ -70,7 +70,6 @@ public class Slingshot : MonoBehaviour
             FollowCam.POI = projectile;
             projectile = null;
             Basketball.ShotFired();
-            //ProjectileLine.S.poi = projectile;
         }
     }
 }

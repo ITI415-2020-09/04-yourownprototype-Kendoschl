@@ -8,8 +8,10 @@ public class Basketball : MonoBehaviour {
     
     [Header("Set in Inspector")]
     public Text uitShots;
+    public Text uitGoals;
     [Header("Set Dynamically")]
     public int shotsTaken;
+    public int goalsLeft = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,7 @@ public class Basketball : MonoBehaviour {
     void UpdateGUI()
     {
         uitShots.text = "Shots Taken: " + shotsTaken;
+        uitGoals.text = "Goals left: " + goalsLeft;
     }
     // Update is called once per frame
     void Update()
@@ -28,5 +31,10 @@ public class Basketball : MonoBehaviour {
     public static void ShotFired()
     {
         S.shotsTaken++;
+    }
+
+    public static void GoalHit()
+    {
+        S.goalsLeft--;
     }
 }

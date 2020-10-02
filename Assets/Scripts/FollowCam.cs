@@ -17,8 +17,6 @@ public class FollowCam : MonoBehaviour
 
     void FixedUpdate()
     {
-        // if (POI == null) return;
-        //Vector3 destination = POI.transform.position;
 
         Vector3 destination;
         if (POI == null)

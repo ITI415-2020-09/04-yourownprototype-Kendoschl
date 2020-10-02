@@ -5,22 +5,28 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     [Header("Set in Inspector")]
-    public float speed = 1f;
-    public float leftAndRightEdge = 10f;
+    public float sideSpeed = 1f;
+    public float vertSpeed = 1f;
+    public float leftEdge = 10f;
+    public float rightEdge = 10f;
+    public float topEdge = 10f;
+    public float bottomEdge = 10f;
     public float chanceToChangeDirections = 0.1f;
-    public float secondsBetweenAppleDrops = 1f;
+    public bool scored = false;
 
     static public bool goalMet = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Projectile")
+        if (other.gameObject.tag == "Projectile" && scored == false)
         {
             Goal.goalMet = true;
             Material mat = GetComponent<Renderer>().material;
             Color c = mat.color;
             c.a = 1;
             mat.color = c;
+            scored = true;
+            Basketball.GoalHit();
         }
     }
     void Start()
@@ -32,16 +38,32 @@ public class Goal : MonoBehaviour
     void Update()
     {
         Vector3 pos = transform.position;
-        pos.x += speed * Time.deltaTime;
+        pos.y += vertSpeed * Time.deltaTime;
         transform.position = pos;
 
-        if (pos.x < -leftAndRightEdge)
+        pos.y += vertSpeed * Time.deltaTime;
+
+        if (pos.y < bottomEdge)
         {
-            speed = Mathf.Abs(speed);
+            vertSpeed = Mathf.Abs(vertSpeed);
         }
-        else if (pos.x > leftAndRightEdge)
+        else if (pos.y > topEdge)
         {
-            speed = -Mathf.Abs(speed);
+            vertSpeed = -Mathf.Abs(vertSpeed);
+        }
+
+        pos.x += sideSpeed * Time.deltaTime;
+        transform.position = pos;
+
+        pos.x += sideSpeed * Time.deltaTime;
+
+        if (pos.x < leftEdge)
+        {
+            sideSpeed = Mathf.Abs(sideSpeed);
+        }
+        else if (pos.x > rightEdge)
+        {
+            sideSpeed = -Mathf.Abs(sideSpeed);
         }
     }
 
@@ -49,7 +71,27 @@ public class Goal : MonoBehaviour
     {
         if (Random.value < chanceToChangeDirections)
         {
-            speed *= -1;
+            sideSpeed *= -1;
+            vertSpeed *= -1;
         }
     }
+
+   
+    /*void OnCollisionEnter(Collision coll)
+    {
+        GameObject collodedWith = coll.gameObject;
+        if (collodedWith.tag == "Apple")
+        {
+            Destroy(collodedWith);
+            int score = int.Parse(scoreGT.text);
+            score += 100;
+            scoreGT.text = score.ToString();
+
+            if (score > HighScore.score)
+            {
+                HighScore.score = score;
+            }
+        }
+    }
+    */
 }
