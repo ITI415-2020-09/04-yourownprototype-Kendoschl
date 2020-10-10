@@ -28,7 +28,10 @@ public class Slingshot : MonoBehaviour
     {
         launchPoint.SetActive(true);
     }
-
+    void OnMouseExit()
+    {
+        launchPoint.SetActive(false);
+    }
     void OnMouseDown()
     {
         aimingMode = true;
